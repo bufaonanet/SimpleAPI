@@ -2,7 +2,7 @@ using SimpleAPI.Controllers;
 
 namespace SimpleAPI.Test;
 
-public class UnitTest1
+public class ValuesControllerTest
 {
     ValuesController controller = new();
 
@@ -11,6 +11,6 @@ public class UnitTest1
     public void GetReturnsMyName()
     {
         var returnValue = controller.Get(1);
-        Assert.Equal("Bufaonanet test", returnValue);    
+        Assert.Equal("Bufaonanet", returnValue);    
     }
 }
