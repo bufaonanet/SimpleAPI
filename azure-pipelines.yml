@@ -8,25 +8,37 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  caminhoProjeto: 'src/SimpleAPI/SimpleAPI.csproj'
 
 steps:
- - task: DotNetCoreCLI@2
-   inputs:
-     command: test
-     projects: '**/*Test/*.csproj'
-     arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'Restore App'
+  inputs:
+    command: 'restore'
+    projects: '$(caminhoProjeto)'
+    feedsToUse: 'select'
 
- - script: dotnet build --configuration $(buildConfiguration)
-   displayName: 'build da aplicação'
+- task: DotNetCoreCLI@2
+  displayName: 'Build App'
+  inputs:
+    command: 'build'
+    projects: '$(caminhoProjeto)'
 
- - task: DotNetCoreCLI@2
-   displayName: 'dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-   inputs:
-    command: publish
-    publishWebProjects: false
-    projects: 'src/SimpleAPI/SimpleAPI.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+- task: DotNetCoreCLI@2
+  displayName: 'Publish App'
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
- - task: PublishBuildArtifacts@1
-   displayName: 'publish artifacts'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Test/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'   
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Artefato'
+    publishLocation: 'Container'
