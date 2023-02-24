@@ -11,6 +11,6 @@ public class ValuesControllerTest
     public void GetReturnsMyName()
     {
         var returnValue = controller.Get(1);
-        Assert.Equal("Bufaonanet", returnValue);    
+        Assert.Equal("Bufaonanet test", returnValue);    
     }
 }
