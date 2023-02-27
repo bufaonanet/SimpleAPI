@@ -13,6 +13,13 @@ variables:
   caminhoProjeto: 'src/SimpleAPI/SimpleAPI.csproj'
 
 steps:
+
+- task: CmdLine@2
+  displayName: 'Executar Script'
+  inputs:
+    script: |
+      echo string de conexao $(CONNECTION_STRING)
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore App'
   inputs:
